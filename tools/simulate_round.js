@@ -1,22 +1,25 @@
 const fs = require('fs');
 const path = require('path');
 
+function cleanQuoteText(value){
+  let text = String(value || '').replace(/\s+/g, ' ').trim();
+  const pairs = [['"','"'], ['“','”'], ['„','“'], ['«','»']];
+  for(const [open, close] of pairs){
+    if(text.startsWith(open) && text.endsWith(close) && text.length >= open.length + close.length){
+      return text.slice(open.length, text.length - close.length).trim();
+    }
+  }
+  return text;
+}
+
 function extractQuoted(s){
   const t = String(s||'');
   if(!t) return null;
-  const quoteChars = ['"','“','”'];
-  let first = -1, last = -1;
-  for(const q of quoteChars){
-    const i = t.indexOf(q);
-    if(i !== -1 && (first === -1 || i < first)) first = i;
-    const j = t.lastIndexOf(q);
-    if(j !== -1 && j > last) last = j;
+  for(const matcher of [/“([\s\S]*?)”/, /„([\s\S]*?)“/, /«([\s\S]*?)»/, /"([\s\S]*?)"/]){
+    const match = t.match(matcher);
+    if(match) return cleanQuoteText(match[1]);
   }
-  if(first !== -1 && last > first){
-    const inner = t.slice(first+1, last).replace(/\s+/g,' ');
-    return '"' + inner.trim() + '"';
-  }
-  return t.trim();
+  return cleanQuoteText(t);
 }
 
 function parseProfile(mdText){
