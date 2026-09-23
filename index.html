@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Digital Twin Chatbot Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header-graphic">
+      <div class="logo" aria-hidden="true">DT</div>
+      <div>
+        <h1>Digital Twin Chatbot</h1>
+        <p>Upload a style profile (.md) and play: guess which replies are real.</p>
+      </div>
+    </header>
+
+    <section class="uploader">
+      <label class="file-label">Upload profile (.md)
+        <input id="fileInput" type="file" accept=".md,text/markdown">
+      </label>
+      <div class="profile-meta">
+        <div><strong>Name:</strong> <span id="profileName">—</span></div>
+        <div><strong>Quotes available:</strong> <span id="quoteCount">0</span></div>
+      </div>
+    </section>
+
+    <section class="game">
+      <div class="controls">
+        <button id="startBtn" class="ctrl-btn" disabled><span class="icon">▶️</span><span class="label">Start</span></button>
+        <button id="resetGame" class="ctrl-btn"><span class="icon">🔄</span><span class="label">Reset</span></button>
+        <span class="round-badge">Round: <span id="currentRound">0</span>/10</span>
+      </div>
+      <div id="statement" class="statement">Upload profile and press Start.</div>
+      <div id="paraphrase" class="paraphrase" aria-live="polite"></div>
+
+      <div class="choices">
+        <button id="realBtn" class="choice choice-real"><span class="icon">🧑</span><span class="label">Real</span></button>
+        <button id="aiBtn" class="choice choice-ai"><span class="icon">🤖</span><span class="label">AI</span></button>
+      </div>
+
+      <div class="score">Score: <span id="score">0</span></div>
+      <div id="confetti" class="confetti" aria-hidden="true"></div>
+    </section>
+
+    <section class="history">
+      <h2>History / Ranking</h2>
+      <div class="history-controls"><button id="clearHistory" class="ctrl-btn"><span class="icon">🧾</span><span class="label">Clear</span></button></div>
+      <ol id="historyList"></ol>
+    </section>
+
+    <section id="testSection" class="test-section">
+      <div class="test-header"><strong>Test: Parsed quotes</strong> <button id="hideTest">Hide</button></div>
+      <ol id="parsedQuotesList" class="parsed-quotes"></ol>
+    </section>
+
+    <footer>
+      <small>Local-only demo · No external APIs</small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
